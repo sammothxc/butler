@@ -3,6 +3,14 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# mine
+*bin
+*include
+*lib
+*lib64
+*pyvenv.cfg
+*old/
+
 # User-specific files
 *.rsuser
 *.suo
