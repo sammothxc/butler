@@ -4,8 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # mine
-*pass.txt
-*wanted_usernames.txt
+pass.txt
+wanted_usernames.txt
 .env
 *bin
 *include
