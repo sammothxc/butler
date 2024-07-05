@@ -13,14 +13,6 @@ from dotenv import load_dotenv
 #==============PLAGARIZED CODE LMAO ===================
 def log_in(USERNAME, PASSWORD, driver):
     driver.get("https://www.instagram.com/accounts/login")
-
-    # refuse cookies
-    try:
-        print("trying")
-        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,\
-            '/html/body/div[4]/div[1]/div/div[2]/div/div/div/div/div[2]/div/button[2]'))).click()
-    except:
-        pass
     
     # input name & password
     driver.find_element(By.NAME, 'username').send_keys(USERNAME)
@@ -98,7 +90,8 @@ def checkprivateaccounts():
         exists[username] = check_username(driver, username, potential_alts)
         time.sleep(1)
     
-    return str(exists)
+    return exists
+    return "\n".join([f"{key}: {value}" for key, value in exists.items()])
 #==============END OF PLAGARIZED CODE LMAO ===============
 
 load_dotenv() # load TOKEN
@@ -127,7 +120,8 @@ async def hello(ctx: discord.ApplicationContext):
 async def chkprivate(ctx: discord.ApplicationContext):
     await ctx.respond("Checking Hitman Watchlisted accounts...")
     chk = checkprivateaccounts()
-    await ctx.respond("Done checking Hitman Watchlisted accounts: \n" + chk)
+    result = "\n".join([f"{key} {'still up, ID: ' + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
+    await ctx.respond("Done checking Hitman Watchlisted accounts: \n" + result)
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
 
