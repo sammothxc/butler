@@ -1,39 +1,4 @@
 # bot.py
-import os
-import discord
-from dotenv import load_dotenv
-
-load_dotenv() # load TOKEN
-bot = discord.Bot()
-
-## Logging
-@bot.event
-async def on_ready():
-    print(f"{bot.user} is ready and online!")
-
-## Slash Commands ========================================
-
-## Hello Command
-@bot.slash_command(
-    name="hello",
-    description="Say hello to the bot"
-)
-async def hello(ctx: discord.ApplicationContext):
-    await ctx.respond("Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
-
-## Check Private Accounts Command
-@bot.slash_command(
-    name="chkprivate",
-    description="Run a script to check if private accounts resurfaced."
-)
-async def chkprivate(ctx: discord.ApplicationContext):
-    await ctx.respond("Checking Hitman Watchlisted accounts...")
-    checkprivateaccounts()
-    await ctx.respond("Done checking Hitman Watchlisted accounts.")
-## Run the bot
-bot.run(os.getenv('DISCORD_TOKEN'))
-
-## LEGWORK
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -41,20 +6,9 @@ from selenium.webdriver.support import expected_conditions as EC
 import json
 import time
 
-def chooseBrowser():
-    print("(c)hrome (f)irefox (s)afari (e)dge")
-    report = input()
-    if report == "c":
-        return webdriver.Chrome()
-    elif report == "f":
-        return webdriver.Firefox()
-    elif report == "s":
-        return webdriver.Safari()
-    elif report == "e":
-        return webdriver.Edge()
-    else:
-        print("Invalid browser choice. Defaulting to Edge.")
-        return webdriver.Edge()
+import os
+import discord
+from dotenv import load_dotenv
 
 def log_in(USERNAME, PASSWORD, driver):
     driver.get("https://www.instagram.com/accounts/login")
@@ -62,7 +16,7 @@ def log_in(USERNAME, PASSWORD, driver):
     # refuse cookies
     try:
         print("trying")
-        WebDriverWait(driver, 15).until(EC.element_to_be_clickable((By.XPATH,\
+        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,\
             '/html/body/div[4]/div[1]/div/div[2]/div/div/div/div/div[2]/div/button[2]'))).click()
     except:
         pass
@@ -71,7 +25,7 @@ def log_in(USERNAME, PASSWORD, driver):
     driver.find_element(By.NAME, 'username').send_keys(USERNAME)
     driver.find_element(By.NAME, 'password').send_keys(PASSWORD)
 
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, \
+    WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, \
         '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button'))).click()
 
 def get_json(username, driver):
@@ -102,26 +56,6 @@ def encode(string):
 def get_most_likely(usernames, alts):
     return [alt for alt in list(alts) if encode(alt) in set([encode(name) for name in usernames])]
 
-def print_out_txt(exists, alts):
-    with open("results.txt", "w", encoding="utf-8") as res_file:
-        most_likely = get_most_likely(exists.keys(), alts)
-        for user in exists.keys():
-            res_file.write(user + " is still up\n" if exists[user][0] else user + " is gone, good work!\n")
-        res_file.write("\nmost likely alts:\n")
-        for alt in list(most_likely):
-            res_file.write(" - " + alt + "\n")
-
-        res_file.write("\npotential alts:\n")
-        for alt in list(alts):
-            res_file.write(" - " + alt + "\n")
-
-def print_out_csv(exists):
-    par = lambda val: f'"{val}"'
-    with open("username-ID.csv", "w", encoding="utf-8") as res_file:
-        res_file.write('"username";"user ID";"exists"\n')
-        for user in exists.keys():
-            res_file.write(";".join((par(user), par(exists[user][1] if exists[user][0] else ""), par("True" if exists[user][0] else "False"))))
-
 def check_username(driver, username, potential_alts):
     users_json = get_json(username, driver=driver)
     if users_json == {}:
@@ -148,27 +82,51 @@ def checkprivateaccounts():
     MAIN_USERNAME = creds[0] # YOUR username
     MAIN_PASSWORD = creds[1]
 
-    mode = ""
-    accepted_modes = {"txt", "csv"}
-    while mode not in accepted_modes:
-        mode = input("Input mode: ")
 
     potential_alts = set()
     exists = {}
 
     # open browser & log in Instagram
-    driver = chooseBrowser()
+    driver = webdriver.Chrome()
     driver.implicitly_wait(10)
     log_in(MAIN_USERNAME, MAIN_PASSWORD, driver)
-    time.sleep(15)
+    time.sleep(5)
 
     # iterate through the wanted usernames
     for username in usernames_to_check:
         exists[username] = check_username(driver, username, potential_alts)
         time.sleep(1)
+    
+    return str(exists)
 
-    match mode:
-        case "txt":
-            print_out_txt(exists, potential_alts)
-        case "csv":
-            print_out_csv(exists)
+load_dotenv() # load TOKEN
+bot = discord.Bot()
+
+## Logging
+@bot.event
+async def on_ready():
+    print(f"{bot.user} is ready and online!")
+
+## Slash Commands ========================================
+
+## Hello Command
+@bot.slash_command(
+    name="hello",
+    description="Say hello to the bot"
+)
+async def hello(ctx: discord.ApplicationContext):
+    await ctx.respond("Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
+
+## Check Private Accounts Command
+@bot.slash_command(
+    name="chkprivate",
+    description="Run a script to check if private accounts resurfaced."
+)
+async def chkprivate(ctx: discord.ApplicationContext):
+    await ctx.respond("Checking Hitman Watchlisted accounts...")
+    chk = checkprivateaccounts()
+    await ctx.respond("Done checking Hitman Watchlisted accounts:" + chk)
+## Run the bot
+bot.run(os.getenv('DISCORD_TOKEN'))
+
+## LEGWORK
