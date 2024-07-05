@@ -3,13 +3,31 @@ import os
 import discord
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+load_dotenv() # load TOKEN
+bot = discord.Bot()
 
-client = discord.Client()
-
-@client.event
+## Logging
+@bot.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f"{bot.user} is ready and online!")
 
-client.run(TOKEN)
+## Slash Commands ========================================
+
+## Hello Command
+@bot.slash_command(
+    name="hello",
+    description="Say hello to the bot"
+)
+async def hello(ctx: discord.ApplicationContext):
+    await ctx.respond("Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
+
+## Check Private Accounts Command
+@bot.slash_command(
+    name="check-private-accounts",
+    description="Run a script to check if private accounts resurfaced."
+)
+async def checkPrivateAccounts(ctx: discord.ApplicationContext):
+    await ctx.respond("Checking Hitman Watchlisted accounts...")
+
+## Run the bot
+bot.run(os.getenv('DISCORD_TOKEN'))
