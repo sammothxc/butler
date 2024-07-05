@@ -10,6 +10,7 @@ import os
 import discord
 from dotenv import load_dotenv
 
+#==============PLAGARIZED CODE LMAO ===================
 def log_in(USERNAME, PASSWORD, driver):
     driver.get("https://www.instagram.com/accounts/login")
 
@@ -98,6 +99,7 @@ def checkprivateaccounts():
         time.sleep(1)
     
     return str(exists)
+#==============END OF PLAGARIZED CODE LMAO ===============
 
 load_dotenv() # load TOKEN
 bot = discord.Bot()
