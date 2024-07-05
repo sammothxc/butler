@@ -127,7 +127,7 @@ async def hello(ctx: discord.ApplicationContext):
 async def chkprivate(ctx: discord.ApplicationContext):
     await ctx.respond("Checking Hitman Watchlisted accounts...")
     chk = checkprivateaccounts()
-    await ctx.respond("Done checking Hitman Watchlisted accounts:" + chk)
+    await ctx.respond("Done checking Hitman Watchlisted accounts: \n" + chk)
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
 
