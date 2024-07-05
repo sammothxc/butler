@@ -23,10 +23,10 @@ async def hello(ctx: discord.ApplicationContext):
 
 ## Check Private Accounts Command
 @bot.slash_command(
-    name="check-private-accounts",
+    name="chkprivate",
     description="Run a script to check if private accounts resurfaced."
 )
-async def checkPrivateAccounts(ctx: discord.ApplicationContext):
+async def chkprivate(ctx: discord.ApplicationContext):
     await ctx.respond("Checking Hitman Watchlisted accounts...")
 
 ## Run the bot
