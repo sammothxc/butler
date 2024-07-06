@@ -5,9 +5,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 watchlist_file = "/home/butler/butler/watchlist.txt"
 creds_file = "/home/butler/butler/creds.txt"
+options = Options()
+options.add_argument('--no-sandbox')
 
 def log_in(USERNAME, PASSWORD, driver):
     driver.get("https://www.instagram.com/accounts/login")
@@ -58,7 +61,7 @@ def check_watchlist_function():
     MAIN_PASSWORD = creds[1]
     potential_alts = set()
     exists = {}
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(chrome_options=options)
     driver.implicitly_wait(10)
     log_in(MAIN_USERNAME, MAIN_PASSWORD, driver)
     time.sleep(5)
