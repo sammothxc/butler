@@ -138,15 +138,6 @@ def list_watchlist_function():
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
             result = "\n".join(f"[{username.strip()}](https://www.instagram.com/{username})" for username in wanted)
             return result
-
-            # original code:
-            
-            content = wanted.read().strip()
-            if not content:
-                return False
-            usernames = content.split("\n")
-            formatted_usernames = [f" {username} - <https://instagram.com/{username}>" for username in usernames]
-            return "\n".join(formatted_usernames)
     except Exception as e:
         print(e)
         return False
