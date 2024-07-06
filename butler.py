@@ -45,9 +45,8 @@ async def help(ctx: discord.ApplicationContext):
     description="List accounts on Watchlist."
 )
 async def list_watchlist(ctx: discord.ApplicationContext):
-    try:
-        watchlist = list_watchlist_function()
-    except:
+    watchlist = list_watchlist_function()
+    if not watchlist:
         await ctx.respond(":x: Watchlist error.")
         return
     await ctx.respond(f":white_check_mark: Watchlist accounts:\n{watchlist}")
