@@ -61,7 +61,7 @@ def check_username(driver, username, potential_alts):
     return exists
 
 def checkprivateaccounts():
-    with open("wanted_usernames.txt", "r", encoding="utf-8") as wanted:
+    with open("watchlist.txt", "r", encoding="utf-8") as wanted:
         usernames_to_check = wanted.read().split(";")# WANTED usernames
     
     with open("pass.txt", "r") as pass_file:
