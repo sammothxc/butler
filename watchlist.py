@@ -51,9 +51,9 @@ def check_username(driver, username, potential_alts):
 
 def check_watchlist_function():
     with open(watchlist_file, "r", encoding="utf-8") as wanted:
-        usernames_to_check = wanted.read().split(";")
+        usernames_to_check = wanted.read().split("\n")
     with open(creds_file, "r") as pass_file:
-        creds = pass_file.read().split(";")
+        creds = pass_file.read().split(",")
     MAIN_USERNAME = creds[0]
     MAIN_PASSWORD = creds[1]
     potential_alts = set()
@@ -73,7 +73,7 @@ def list_watchlist_function():
             content = wanted.read().strip()
             if not content:
                 return False
-            usernames = content.split(";")
+            usernames = content.split("\n")
             formatted_usernames = [f"[{username}](https://instagram.com/{username})" for username in usernames]
             return "\n".join(formatted_usernames)
     except:
@@ -85,7 +85,7 @@ def add_to_watchlist_function(username):
         return False
     try:
         with open(watchlist_file, "a", encoding="utf-8") as wanted:
-            wanted.write(username + ";")
+            wanted.write(username + "\n")
     except:
         return False
     return True
@@ -94,9 +94,9 @@ def add_to_watchlist_function(username):
 def remove_from_watchlist_function(username):
     try:
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
-            usernames = wanted.read().split(";")
+            usernames = wanted.read().split("\n")
         with open(watchlist_file, "w", encoding="utf-8") as wanted:
-            wanted.write(";".join([name for name in usernames if name != username]))
+            wanted.write("\n".join([name for name in usernames if name != username]))
     except:
         return False
     return True
