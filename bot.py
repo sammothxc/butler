@@ -2,6 +2,7 @@
 import os
 import discord
 from dotenv import load_dotenv
+import check_watchlist
 
 load_dotenv() # load TOKEN
 bot = discord.Bot()
