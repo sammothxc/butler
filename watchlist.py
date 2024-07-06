@@ -136,7 +136,7 @@ def list_watchlist_function():
 
     try:
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
-            result = "\n".join(f"[{username.strip()}]<https://www.instagram.com/{username}>" for username in wanted)
+            result = "\n".join(f"[{username.strip()}](https://www.instagram.com/{username})" for username in wanted)
             return result
 
             # original code:
