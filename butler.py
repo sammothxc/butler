@@ -23,11 +23,11 @@ async def hello(ctx: discord.ApplicationContext):
     await ctx.respond(":wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
 
 ## Ping
-@bot.command(
+@bot.slash_command(
     name="ping",
     description="Sends the bot's latency."
 )
-async def ping(ctx):
+async def ping(ctx: discord.ApplicationContext):
     await ctx.respond(":white_check_mark: Pong! Latency is " + bot.latency)
 
 ## Butler Help
