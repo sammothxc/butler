@@ -73,12 +73,10 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 )
 async def add_to_watchlist(ctx: discord.ApplicationContext):
     account = "test"
-    try:
-        add_to_watchlist_function(account)
-    except:
+    if add_to_watchlist_function(account):
+            await ctx.respond(":white_check_mark: Added " + account + " to Watchlist.")
+    else:
         await ctx.respond(":x: " + account + " is already in Watchlist.")
-        return
-    await ctx.respond(":white_check_mark: Added " + account + " to Watchlist.")
 
 ## Remove from Watchlist
 @bot.slash_command(
