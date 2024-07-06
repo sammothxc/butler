@@ -74,7 +74,7 @@ def list_watchlist_function():
             if not content:
                 return False
             usernames = content.split("\n")
-            formatted_usernames = [f"[{username}](https://instagram.com/{username})" for username in usernames]
+            formatted_usernames = [f"[{username}]<https://instagram.com/{username}>" for username in usernames]
             return "\n".join(formatted_usernames)
     except:
         return False
