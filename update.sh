@@ -1,4 +1,4 @@
-ssh butler@truenas-butler
+ssh root@truenas-butler
+cd /home/butler/butler
 git pull
-pip3 install -r requirements.txt
-python3 bot.py
+systemctl restart butler
