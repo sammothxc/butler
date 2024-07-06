@@ -50,6 +50,7 @@ async def list_watchlist(ctx: discord.ApplicationContext):
         await ctx.respond(":x: Watchlist error.")
         return
     await ctx.respond(f":white_check_mark: Watchlist accounts:\n{watchlist}")
+    await ctx.edit(suppress=True)
 
 ## Check Watchlist
 @bot.slash_command(
