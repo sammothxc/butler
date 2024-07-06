@@ -28,7 +28,7 @@ async def hello(ctx: discord.ApplicationContext):
     description="Sends the bot's latency."
 )
 async def ping(ctx: discord.ApplicationContext):
-    await ctx.respond(":white_check_mark: Pong! Latency is " + bot.latency)
+    await ctx.respond(f":white_check_mark: Pong! Latency is {bot.latency}.")
 
 ## Butler Help
 @bot.slash_command(
