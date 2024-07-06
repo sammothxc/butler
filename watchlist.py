@@ -147,9 +147,6 @@ def list_watchlist_function():
             usernames = content.split("\n")
             formatted_usernames = [f" {username} - <https://instagram.com/{username}>" for username in usernames]
             return "\n".join(formatted_usernames)
-    except FileNotFoundError:
-        print("File not found")
-        return False
     except Exception as e:
         print(e)
         return False
