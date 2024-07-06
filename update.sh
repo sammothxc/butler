@@ -1,5 +1,5 @@
-ssh root@truenas-butler << ENDSSH
+ssh butler@truenas-butler << ENDSSH
 cd /home/butler/butler
 git pull
-systemctl restart butler
+sudo systemctl restart butler
 ENDSSH

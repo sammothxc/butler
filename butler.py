@@ -17,12 +17,20 @@ async def on_ready():
 ## Hello
 @bot.slash_command(
     name="hello",
-    description="Say hi to butler"
+    description="Say hi to Butler."
 )
 async def hello(ctx: discord.ApplicationContext):
     await ctx.respond(":wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
 
-## Bulter Help
+## Ping
+@bot.command(
+    name="ping",
+    description="Sends the bot's latency."
+)
+async def ping(ctx):
+    await ctx.respond(":white_check_mark: Pong! Latency is " + bot.latency)
+
+## Butler Help
 @bot.slash_command(
     name="butler_help",
     description="List Butler's commands."
