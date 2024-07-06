@@ -92,6 +92,9 @@ def add_to_watchlist_function(username):
 
     
 def remove_from_watchlist_function(username):
+    usernames = list_watchlist_function()
+    if username in usernames:
+        return False
     try:
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
             usernames = wanted.read().split("\n")
