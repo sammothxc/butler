@@ -85,14 +85,14 @@ def list_watchlist_function():
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
             content = wanted.read().strip()
             if not content:
-                return "The watchlist is empty."
+                return False
             
             usernames = content.split(";")
             return "\n".join(usernames)
     except FileNotFoundError:
-        return "The watchlist file does not exist."
+        return False
     except Exception as e:
-        return f"An error occurred: {e}"
+        return False
 
 def add_to_watchlist_function(username):
     with open(watchlist_file, "a", encoding="utf-8") as wanted:

@@ -47,7 +47,7 @@ async def list_watchlist(ctx: discord.ApplicationContext):
     try:
         watchlist = list_watchlist_function()
     except:
-        await ctx.respond(":x: Watchlist is empty.")
+        await ctx.respond(":x: Watchlist error.")
         return
     await ctx.respond(f":white_check_mark: Watchlist accounts:\n{watchlist}")
 
@@ -58,7 +58,11 @@ async def list_watchlist(ctx: discord.ApplicationContext):
 )
 async def check_watchlist(ctx: discord.ApplicationContext):
     await ctx.respond(":warning: Checking Watchlist accounts...")
-    chk = check_watchlist_function()
+    try:
+        chk = check_watchlist_function()
+    except:
+        await ctx.respond(":x: Watchlist check error.")
+        return
     result = "\n".join([f"{key} {'still up, ID: ' + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
     await ctx.respond(":white_check_mark: Done checking Watchlist accounts. \n Here are my findings: \n" + result)
 
