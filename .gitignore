@@ -14,6 +14,7 @@ watchlist.txt
 *pyvenv.cfg
 *old/
 *venv/
+*__pycache__/
 
 # User-specific files
 *.rsuser
