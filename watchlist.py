@@ -136,7 +136,7 @@ def list_watchlist_function():
 
     try:
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
-            result = "".join(f"{username.strip()} - www.instagram.com/{username}" for username in wanted)
+            result = "".join(f"{username.strip()} - <www.instagram.com/{username}>" for username in wanted)
             return result[:-1] # if the file doesn't have trailing newline just return result
 
             # original code:
