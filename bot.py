@@ -57,7 +57,11 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 )
 async def add_to_watchlist(ctx: discord.ApplicationContext):
     account = "test"
-    add_to_watchlist(account)
+    try:
+        add_to_watchlist(account)
+    except:
+        await ctx.respond(":x: " + account + " is already in Watchlist.")
+        return
     await ctx.respond(":white_check_mark: Added " + account + " to Watchlist.")
 
 ## Remove from Watchlist
@@ -67,7 +71,11 @@ async def add_to_watchlist(ctx: discord.ApplicationContext):
 )
 async def remove_from_watchlist(ctx: discord.ApplicationContext):
     account = "test"
-    remove_from_watchlist(account)
+    try:
+        remove_from_watchlist(account)
+    except:
+        await ctx.respond(":x: " + account + " is not in Watchlist.")
+        return
     await ctx.respond(":white_check_mark: Removed " + account + " from Watchlist.")
 
 ## Run the bot

@@ -78,3 +78,24 @@ def check_watchlist():
         time.sleep(1)
     
     return exists
+
+def list_watchlist():
+    with open("watchlist.txt", "r", encoding="utf-8") as wanted:
+        usernames = wanted.read().split(";")
+    
+    return "\n".join(usernames)
+
+def add_to_watchlist(username):
+    with open("watchlist.txt", "a", encoding="utf-8") as wanted:
+        wanted.write(username + ";")
+
+    return True
+    
+def remove_from_watchlist(username):
+    with open("watchlist.txt", "r", encoding="utf-8") as wanted:
+        usernames = wanted.read().split(";")
+    
+    with open("watchlist.txt", "w", encoding="utf-8") as wanted:
+        wanted.write(";".join([name for name in usernames if name != username]))
+    
+    return True
