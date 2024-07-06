@@ -1,4 +1,4 @@
-# check-watchlist.py
+# check_watchlist.py
 import json
 import time
 from selenium import webdriver
@@ -55,7 +55,7 @@ def check_username(driver, username, potential_alts):
             
     return exists
 
-def checkprivateaccounts():
+def check_watchlist():
     with open("watchlist.txt", "r", encoding="utf-8") as wanted:
         usernames_to_check = wanted.read().split(";")
     

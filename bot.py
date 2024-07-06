@@ -2,7 +2,7 @@
 import os
 import discord
 from dotenv import load_dotenv
-import check_watchlist
+from check_watchlist import check_watchlist
 
 load_dotenv() # load TOKEN
 bot = discord.Bot()
@@ -24,12 +24,23 @@ async def hello(ctx: discord.ApplicationContext):
 
 ## Check Watchlist
 @bot.slash_command(
-    name="chkprivate",
+    name="check_watchlist",
     description="Run a script to check if private accounts resurfaced."
 )
 async def chkprivate(ctx: discord.ApplicationContext):
     await ctx.respond("Checking Hitman Watchlisted accounts...")
-    chk = checkprivateaccounts()
+    chk = check_watchlist()
+    result = "\n".join([f"{key} {'still up, ID: ' + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
+    await ctx.respond("Done checking Hitman Watchlisted accounts: \n" + result)
+
+## Add to Watchlist
+@bot.slash_command(
+    name="add_watchlist",
+    description="Run a script to check if private accounts resurfaced."
+)
+async def chkprivate(ctx: discord.ApplicationContext):
+    await ctx.respond("Checking Hitman Watchlisted accounts...")
+    chk = check_watchlist()
     result = "\n".join([f"{key} {'still up, ID: ' + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
     await ctx.respond("Done checking Hitman Watchlisted accounts: \n" + result)
 
