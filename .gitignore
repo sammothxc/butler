@@ -13,6 +13,7 @@ watchlist.txt
 *lib64
 *pyvenv.cfg
 *old/
+*venv/
 
 # User-specific files
 *.rsuser
