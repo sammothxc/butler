@@ -1,6 +1,7 @@
 # bot.py
 import os
 import discord
+from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
 
@@ -71,8 +72,8 @@ async def check_watchlist(ctx: discord.ApplicationContext):
     name="add_to_watchlist",
     description="Add an account to Watchlist."
 )
-async def add_to_watchlist(ctx: discord.ApplicationContext):
-    account = "test"
+@option("username")
+async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
     if add_to_watchlist_function(account):
             await ctx.respond(f":white_check_mark: Added {account} to Watchlist.")
     else:
@@ -83,8 +84,8 @@ async def add_to_watchlist(ctx: discord.ApplicationContext):
     name="remove_from_watchlist",
     description="Remove an account from Watchlist."
 )
-async def remove_from_watchlist(ctx: discord.ApplicationContext):
-    account = "test"
+@option("username")
+async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
     if remove_from_watchlist_function(account):
         await ctx.respond(f":white_check_mark: Removed {account} from Watchlist.")
     else:
