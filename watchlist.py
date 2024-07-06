@@ -162,19 +162,6 @@ def add_to_watchlist_function(username: str) -> bool:
         return False
     return True
 
-    # the original code:
-
-    usernames = list_watchlist_function()
-    if username in usernames:
-        return False
-    try:
-        with open(watchlist_file, "a", encoding="utf-8") as wanted:
-            # this expects a trailing newline and leaves it, the remove procedure is the exact opposite
-            wanted.write(username + "\n")
-    except:
-        return False
-    return True
-
 def remove_from_watchlist_function(username: str) -> bool:
     '''
     remove username from the watchlist_file if it's there
@@ -198,18 +185,4 @@ def remove_from_watchlist_function(username: str) -> bool:
     with open(watchlist_file, "w", encoding="utf-8") as wanted:
         wanted.write(new_usernames)
 
-    return True
-    
-    # the original code:
-
-    usernames = list_watchlist_function()
-    if username not in usernames:
-        return False
-    try:
-        with open(watchlist_file, "r", encoding="utf-8") as wanted:
-            usernames = wanted.read().split("\n")
-        with open(watchlist_file, "w", encoding="utf-8") as wanted:
-            wanted.write("\n".join([name for name in usernames if name != username]))
-    except:
-        return False
     return True
