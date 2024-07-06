@@ -1,10 +1,13 @@
-# check_watchlist.py
+# watchlist.py
 import json
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+watchlist_file = "/home/butler/butler/watchlist.txt"
+creds_file = "/home/butler/butler/creds.txt"
 
 def log_in(USERNAME, PASSWORD, driver):
     driver.get("https://www.instagram.com/accounts/login")
@@ -29,8 +32,6 @@ def get_json(username, driver):
     try:
         return json.loads(text)
     except:
-        with open("response.txt", "w",encoding="utf-8")as resp_file:
-            resp_file.write(text)
         return {}
 
 def encode(string):
@@ -56,10 +57,10 @@ def check_username(driver, username, potential_alts):
     return exists
 
 def check_watchlist_function():
-    with open("watchlist.txt", "r", encoding="utf-8") as wanted:
+    with open(watchlist_file, "r", encoding="utf-8") as wanted:
         usernames_to_check = wanted.read().split(";")
     
-    with open("pass.txt", "r") as pass_file:
+    with open(creds_file, "r") as pass_file:
         creds = pass_file.read().split(";")
 
     MAIN_USERNAME = creds[0]
@@ -81,7 +82,7 @@ def check_watchlist_function():
 
 def list_watchlist_function():
     try:
-        with open("watchlist.txt", "r", encoding="utf-8") as wanted:
+        with open(watchlist_file, "r", encoding="utf-8") as wanted:
             content = wanted.read().strip()
             if not content:
                 return "The watchlist is empty."
@@ -94,16 +95,16 @@ def list_watchlist_function():
         return f"An error occurred: {e}"
 
 def add_to_watchlist_function(username):
-    with open("watchlist.txt", "a", encoding="utf-8") as wanted:
+    with open(watchlist_file, "a", encoding="utf-8") as wanted:
         wanted.write(username + ";")
 
     return True
     
 def remove_from_watchlist_function(username):
-    with open("watchlist.txt", "r", encoding="utf-8") as wanted:
+    with open(watchlist_file, "r", encoding="utf-8") as wanted:
         usernames = wanted.read().split(";")
     
-    with open("watchlist.txt", "w", encoding="utf-8") as wanted:
+    with open(watchlist_file, "w", encoding="utf-8") as wanted:
         wanted.write(";".join([name for name in usernames if name != username]))
     
     return True
