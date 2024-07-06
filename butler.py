@@ -74,9 +74,9 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 async def add_to_watchlist(ctx: discord.ApplicationContext):
     account = "test"
     if add_to_watchlist_function(account):
-            await ctx.respond(":white_check_mark: Added " + account + " to Watchlist.")
+            await ctx.respond(f":white_check_mark: Added {account} to Watchlist.")
     else:
-        await ctx.respond(":x: " + account + " is already in Watchlist.")
+        await ctx.respond(f":x: {account} is already in Watchlist.")
 
 ## Remove from Watchlist
 @bot.slash_command(
@@ -86,9 +86,9 @@ async def add_to_watchlist(ctx: discord.ApplicationContext):
 async def remove_from_watchlist(ctx: discord.ApplicationContext):
     account = "test"
     if remove_from_watchlist_function(account):
-        await ctx.respond(":white_check_mark: Removed " + account + " from Watchlist.")
+        await ctx.respond(f":white_check_mark: Removed {account} from Watchlist.")
     else:
-        await ctx.respond(":x: " + account + " is not in Watchlist.")
+        await ctx.respond(f":x: {account} is not in Watchlist.")
     
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
