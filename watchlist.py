@@ -80,10 +80,18 @@ def check_watchlist():
     return exists
 
 def list_watchlist():
-    with open("watchlist.txt", "r", encoding="utf-8") as wanted:
-        usernames = wanted.read().split(";")
-    
-    return "\n".join(usernames)
+    try:
+        with open("watchlist.txt", "r", encoding="utf-8") as wanted:
+            content = wanted.read().strip()
+            if not content:
+                return "The watchlist is empty."
+            
+            usernames = content.split(";")
+            return "\n".join(usernames)
+    except FileNotFoundError:
+        return "The watchlist file does not exist."
+    except Exception as e:
+        return f"An error occurred: {e}"
 
 def add_to_watchlist(username):
     with open("watchlist.txt", "a", encoding="utf-8") as wanted:
