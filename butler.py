@@ -61,7 +61,8 @@ async def check_watchlist(ctx: discord.ApplicationContext):
     await ctx.respond(":warning: Checking Watchlist accounts...")
     try:
         chk = check_watchlist_function()
-    except:
+    except Exception as e:
+        print(e)
         await ctx.respond(":x: Watchlist check error.")
         return
     result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][3] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
