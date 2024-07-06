@@ -89,22 +89,32 @@ def list_watchlist_function():
             
             usernames = content.split(";")
             return "\n".join(usernames)
-    except FileNotFoundError:
-        return False
-    except Exception as e:
+    except:
         return False
 
 def add_to_watchlist_function(username):
-    with open(watchlist_file, "a", encoding="utf-8") as wanted:
-        wanted.write(username + ";")
-
+    usernames = list_watchlist_function()
+    
+    if username in usernames:
+        return False
+    
+    try:
+        with open(watchlist_file, "a", encoding="utf-8") as wanted:
+            wanted.write(username + ";")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+    
     return True
+
     
 def remove_from_watchlist_function(username):
-    with open(watchlist_file, "r", encoding="utf-8") as wanted:
-        usernames = wanted.read().split(";")
-    
-    with open(watchlist_file, "w", encoding="utf-8") as wanted:
-        wanted.write(";".join([name for name in usernames if name != username]))
-    
+    try:
+        with open(watchlist_file, "r", encoding="utf-8") as wanted:
+            usernames = wanted.read().split(";")
+        
+        with open(watchlist_file, "w", encoding="utf-8") as wanted:
+            wanted.write(";".join([name for name in usernames if name != username]))
+    except:
+        return False
     return True
