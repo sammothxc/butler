@@ -1,0 +1,8 @@
+Description=Hitmen Butler Discord Bot
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/home/butler/butler/venv/bin/python3 /home/butler/butler/butl>
+[Install]
+WantedBy=multi-user.target
