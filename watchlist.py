@@ -68,8 +68,19 @@ def check_watchlist_function():
     return exists
 
 def list_watchlist_function():
+    '''
+    lists the usernames in the watchlist_file and the links to their accounts
+    returns a single string if no errors occured, False otherwise
+    expects file with a trailing newline
+    '''
+
     try:
         with open(watchlist_file, "r", encoding="utf-8") as wanted:
+            result = "".join(f"{username.strip()} - www.instagram.com/{username}" for username in wanted)
+            return result[:-1] # if the file doesn't have trailing newline just return result
+
+            # original code:
+            
             content = wanted.read().strip()
             if not content:
                 return False
@@ -79,10 +90,19 @@ def list_watchlist_function():
     except:
         return False
 
-def add_to_watchlist_function(username):
-    usernames = list_watchlist_function()
-    if username in usernames:
-        return False
+def add_to_watchlist_function(username: str) -> bool:
+    '''
+    adds a username to the watchlist_file if it's not already there
+    returns True if username was added, False otherwise
+    expects file with a trailing newline
+    '''
+
+    with open(watchlist_file, "r", encoding="utf-8") as wanted:
+        # this reads through only the usernames not the links, less string = less time
+        usernames = wanted.read()
+        if usernames.startswith(username+"\n") or "\n"+username+"\n" in usernames:
+            return False
+    
     try:
         with open(watchlist_file, "a", encoding="utf-8") as wanted:
             wanted.write(username + "\n")
@@ -90,8 +110,46 @@ def add_to_watchlist_function(username):
         return False
     return True
 
+    # the original code:
+
+    usernames = list_watchlist_function()
+    if username in usernames:
+        return False
+    try:
+        with open(watchlist_file, "a", encoding="utf-8") as wanted:
+            # this expects a trailing newline and leaves it, the remove procedure is the exact opposite
+            wanted.write(username + "\n")
+    except:
+        return False
+    return True
+
+def remove_from_watchlist_function(username: str) -> bool:
+    '''
+    remove username from the watchlist_file if it's there
+    returns True if username was in file and was removed, False otherwise
+    expects a file with a trailing newline
+    '''
+
+    # get all the usernames in a single string
+    with open(watchlist_file, "r", encoding="utf-8") as wanted:
+        usernames = wanted.read()
     
-def remove_from_watchlist_function(username):
+    # delete the username from the string and check if it was deleted
+    if usernames.startswith(username + "\n"):
+        new_usernames = usernames[len(username) + 1:]
+    else:
+        new_usernames = usernames.replace("\n" + username + "\n", "\n")
+        if len(usernames) == len(new_usernames):
+            return False
+
+    # write the string without the deleted username
+    with open(watchlist_file, "w", encoding="utf-8") as wanted:
+        wanted.write(new_usernames)
+
+    return True
+    
+    # the original code:
+
     usernames = list_watchlist_function()
     if username not in usernames:
         return False
