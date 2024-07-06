@@ -2,7 +2,7 @@
 import os
 import discord
 from dotenv import load_dotenv
-from watchlist import list_watchlist, check_watchlist, add_to_watchlist, remove_from_watchlist
+from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
 
 load_dotenv() # load TOKEN
 bot = discord.Bot()
@@ -44,7 +44,7 @@ async def help(ctx: discord.ApplicationContext):
     description="List accounts on Watchlist."
 )
 async def list_watchlist(ctx: discord.ApplicationContext):
-    watchlist = list_watchlist()
+    watchlist = list_watchlist_function()
     print(watchlist)
     await ctx.respond(f":white_check_mark: Watchlist accounts: \n {watchlist}")
 
@@ -55,7 +55,7 @@ async def list_watchlist(ctx: discord.ApplicationContext):
 )
 async def check_watchlist(ctx: discord.ApplicationContext):
     await ctx.respond(":warning: Checking Watchlist accounts...")
-    chk = check_watchlist()
+    chk = check_watchlist_function()
     result = "\n".join([f"{key} {'still up, ID: ' + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
     await ctx.respond(":white_check_mark: Done checking Watchlist accounts. \n Here are my findings: \n" + result)
 
@@ -67,7 +67,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 async def add_to_watchlist(ctx: discord.ApplicationContext):
     account = "test"
     try:
-        add_to_watchlist(account)
+        add_to_watchlist_function(account)
     except:
         await ctx.respond(":x: " + account + " is already in Watchlist.")
         return
@@ -81,7 +81,7 @@ async def add_to_watchlist(ctx: discord.ApplicationContext):
 async def remove_from_watchlist(ctx: discord.ApplicationContext):
     account = "test"
     try:
-        remove_from_watchlist(account)
+        remove_from_watchlist_function(account)
     except:
         await ctx.respond(":x: " + account + " is not in Watchlist.")
         return

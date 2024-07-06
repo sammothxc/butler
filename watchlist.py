@@ -55,7 +55,7 @@ def check_username(driver, username, potential_alts):
             
     return exists
 
-def check_watchlist():
+def check_watchlist_function():
     with open("watchlist.txt", "r", encoding="utf-8") as wanted:
         usernames_to_check = wanted.read().split(";")
     
@@ -79,7 +79,7 @@ def check_watchlist():
     
     return exists
 
-def list_watchlist():
+def list_watchlist_function():
     try:
         with open("watchlist.txt", "r", encoding="utf-8") as wanted:
             content = wanted.read().strip()
@@ -93,13 +93,13 @@ def list_watchlist():
     except Exception as e:
         return f"An error occurred: {e}"
 
-def add_to_watchlist(username):
+def add_to_watchlist_function(username):
     with open("watchlist.txt", "a", encoding="utf-8") as wanted:
         wanted.write(username + ";")
 
     return True
     
-def remove_from_watchlist(username):
+def remove_from_watchlist_function(username):
     with open("watchlist.txt", "r", encoding="utf-8") as wanted:
         usernames = wanted.read().split(";")
     
