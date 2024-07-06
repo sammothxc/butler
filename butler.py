@@ -45,6 +45,7 @@ async def help(ctx: discord.ApplicationContext):
 )
 async def list_watchlist(ctx: discord.ApplicationContext):
     watchlist = list_watchlist()
+    print(watchlist)
     await ctx.respond(f":white_check_mark: Watchlist accounts: \n {watchlist}")
 
 ## Check Watchlist
