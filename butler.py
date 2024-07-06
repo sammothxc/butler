@@ -85,12 +85,10 @@ async def add_to_watchlist(ctx: discord.ApplicationContext):
 )
 async def remove_from_watchlist(ctx: discord.ApplicationContext):
     account = "test"
-    try:
-        remove_from_watchlist_function(account)
-    except:
+    if remove_from_watchlist_function(account):
+        await ctx.respond(":white_check_mark: Removed " + account + " from Watchlist.")
+    else:
         await ctx.respond(":x: " + account + " is not in Watchlist.")
-        return
-    await ctx.respond(":white_check_mark: Removed " + account + " from Watchlist.")
-
+    
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
