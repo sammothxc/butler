@@ -1,13 +1,15 @@
 # watchlist.py
+import os
 import json
 import time
+from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+load_dotenv()
 watchlist_file = "/home/butler/butler/watchlist.txt"
-creds_file = "/home/butler/butler/creds.txt"
 
 def log_in(USERNAME: str, PASSWORD: str, driver) -> None:
     driver.get("https://www.instagram.com/accounts/login")
@@ -80,11 +82,8 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     expects creds file with a username,password format
     '''
 
-    # get creds
-    with open(creds_file, "r") as pass_file:
-        creds = pass_file.read().split(",")
-    MAIN_USERNAME = creds[0]
-    MAIN_PASSWORD = creds[1]
+    MAIN_USERNAME = os.getenv('IG_USERNAME')
+    MAIN_PASSWORD = os.getenv('IG_PASSWORD')
 
     # create driver and log in
     driver = webdriver.Firefox()
