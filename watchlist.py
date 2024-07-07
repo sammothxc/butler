@@ -98,34 +98,6 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     
     return exists
 
-    # same thing without list comprehension:
-    with open(watchlist_file, "r", encoding="utf-8") as wanted:
-        for username in wanted:
-            username = username.strip()
-            exists[username] = status_check(username, driver)
-
-    return exists
-
-
-    # original code:
-
-    with open(watchlist_file, "r", encoding="utf-8") as wanted:
-        usernames_to_check = wanted.read().split("\n")
-    with open(creds_file, "r") as pass_file:
-        creds = pass_file.read().split(",")
-    MAIN_USERNAME = creds[0]
-    MAIN_PASSWORD = creds[1]
-    potential_alts = set()
-    exists = {}
-    driver = webdriver.Firefox()
-    driver.implicitly_wait(10)
-    log_in(MAIN_USERNAME, MAIN_PASSWORD, driver)
-    time.sleep(5)
-    for username in usernames_to_check:
-        exists[username] = check_username(driver, username, potential_alts)
-        time.sleep(1)
-    return exists
-
 def list_watchlist_function():
     '''
     lists the usernames in the watchlist_file and the links to their accounts
