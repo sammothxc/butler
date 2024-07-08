@@ -42,6 +42,7 @@ def status_check(username: str, driver) -> list[bool, str, bool]:
         res[1] = text[first_id_index:text.index('"', first_id_index)]
         res[2] = not text[first_private_index:text.index('"', first_private_index)] == "false"
 
+    print(res)
     return res
 
 def get_json(username, driver): # no longer used
@@ -100,6 +101,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     with open(watchlist_file, "r", encoding="utf-8") as wanted:
         exists = {username: status_check(username, driver) for username in map(str.strip, wanted)}
     
+    print(exists)
     return exists
 
 def list_watchlist_function():
