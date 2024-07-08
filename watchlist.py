@@ -79,7 +79,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     checks usernames from watchlist_file
     returns a dict with usernames as keys and a list of exists:bool, id:str, private:bool as values
     expects watchlist file with a trailing newline
-    expects creds file with a username,password format
+    expects creds in .env file
     '''
 
     MAIN_USERNAME = os.getenv('IG_USERNAME')
