@@ -18,4 +18,6 @@ add_to_watchlist
 remove_from_watchlist
 
 ## Notes
+`python3 -m venv venv`
+
 `source venv/bin/activate`
