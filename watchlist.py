@@ -33,51 +33,32 @@ def status_check(username: str, driver) -> list[bool, str, bool]:
     res = [False, "", False]
     text = text[text.index("{"):]
 
+    # check the first user that pops up
+
     first_name_index = text.index('"username":"') + len('"username":"')
-    first_id_index = text.index('"pk_id":"') + len('"pk_id":"')
-    first_private_index = text.index('"is_private":') + len('"is_private":')
-    
     res[0] = text[first_name_index:first_name_index + len(username)] == username # is the first match our username?
-    if res[0]:
+
+    if res[0]: # found em first try
+        first_id_index = text.index('"pk_id":"') + len('"pk_id":"')
+        first_private_index = text.index('"is_private":') + len('"is_private":')
         res[1] = text[first_id_index:text.index('"', first_id_index)]
         res[2] = not text[first_private_index:text.index(',', first_private_index)] == "false"
 
+    else: # playing hard to get, much slower but should be bulletproof
+        try:
+            text = text[:text.rindex("}") + 1]
+            users_json = json.loads(text)
+            for user in users_json['users']:
+                res[0] = user['user']['username'] == username
+                if res[0]:
+                    res[1] = user['user']['pk_id']
+                    res[2] = user['user']['is_private']
+                    break
+        except Exception as e:
+            print(e)
+
     print(res)
     return res
-
-def get_json(username, driver): # no longer used
-    url = "https://www.instagram.com/web/search/topsearch/?query=" + username
-    driver.get(url)
-    text = driver.page_source
-    if "{" not in text or "users" not in text:
-        return {}
-    text = text[text.index("{"):]
-    text = text[:text.index("<")]
-    try:
-        return json.loads(text)
-    except:
-        return {}
-
-def encode(string: str) -> str: # no longer used
-    # I fucked this one up a bit in the original, isalpha instead of isnumeric
-    return "".join(char for char in string if char.isalpha())
-
-def get_most_likely(usernames, alts) -> list[str]: # no longer used
-    return [alt for alt in list(alts) if encode(alt) in {encode(name) for name in usernames}]
-
-def check_username(driver, username, potential_alts): # no longer used
-    users_json = get_json(username, driver=driver)
-    if users_json == {}:
-        print("invalid JSON")
-        return False
-    exists = (False,)
-    for user in users_json['users']:
-        is_wanted = user['user']['full_name'] == username or user['user']['username'] == username
-        if not is_wanted:
-            potential_alts.add(user['user']['full_name'])
-        else:
-            exists = (True, user['user']['pk_id'])
-    return exists
 
 def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     '''
@@ -102,7 +83,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
         exists = {username: status_check(username, driver) for username in map(str.strip, wanted)}
     
     print(exists)
-    return exists
+    return exists 
 
 def list_watchlist_function():
     '''
@@ -163,3 +144,39 @@ def remove_from_watchlist_function(username: str) -> bool:
         wanted.write(new_usernames)
 
     return True
+
+# no longer used code
+
+def get_json(username, driver): # no longer used
+    url = "https://www.instagram.com/web/search/topsearch/?query=" + username
+    driver.get(url)
+    text = driver.page_source
+    if "{" not in text or "users" not in text:
+        return {}
+    text = text[text.index("{"):]
+    text = text[:text.index("<")]
+    try:
+        return json.loads(text)
+    except:
+        return {}
+
+def encode(string: str) -> str: # no longer used
+    # I fucked this one up a bit in the original, isalpha instead of isnumeric
+    return "".join(char for char in string if char.isalpha())
+
+def get_most_likely(usernames, alts) -> list[str]: # no longer used
+    return [alt for alt in list(alts) if encode(alt) in {encode(name) for name in usernames}]
+
+def check_username(driver, username, potential_alts): # no longer used
+    users_json = get_json(username, driver=driver)
+    if users_json == {}:
+        print("invalid JSON")
+        return False
+    exists = (False,)
+    for user in users_json['users']:
+        is_wanted = user['user']['full_name'] == username or user['user']['username'] == username
+        if not is_wanted:
+            potential_alts.add(user['user']['full_name'])
+        else:
+            exists = (True, user['user']['pk_id'])
+    return exists
