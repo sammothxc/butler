@@ -86,7 +86,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     MAIN_PASSWORD = os.getenv('IG_PASSWORD')
 
     # create driver and log in
-    driver = webdriver.Chrome()
+    driver = webdriver.Firefox()
     driver.implicitly_wait(10)
     log_in(MAIN_USERNAME, MAIN_PASSWORD, driver)
 
