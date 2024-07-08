@@ -1,6 +1,7 @@
 # watchlist.py
 import os
 import json
+import time
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver import FirefoxOptions
@@ -19,6 +20,7 @@ def log_in(USERNAME: str, PASSWORD: str, driver) -> None:
     driver.find_element(By.NAME, 'password').send_keys(PASSWORD)
     WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, \
         '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button'))).click()
+    time.sleep(5)
 
 def status_check(username: str, driver) -> list[bool, str, bool]:
     '''
