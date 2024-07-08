@@ -3,14 +3,15 @@ import os
 import json
 from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
 watchlist_file = "/home/butler/butler/watchlist.txt"
+opts = FirefoxOptions()
+opts.add_argument("--headless")
 
 def log_in(USERNAME: str, PASSWORD: str, driver) -> None:
     driver.get("https://www.instagram.com/accounts/login")
@@ -87,7 +88,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     MAIN_PASSWORD = os.getenv('IG_PASSWORD')
 
     # create driver and log in
-    driver = webdriver.Firefox()
+    driver = webdriver.Firefox(options=opts)
     driver.implicitly_wait(10)
     log_in(MAIN_USERNAME, MAIN_PASSWORD, driver)
 
