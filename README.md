@@ -17,3 +17,5 @@ add_to_watchlist
 
 remove_from_watchlist
 
+## Notes
+`source venv/bin/activate`
