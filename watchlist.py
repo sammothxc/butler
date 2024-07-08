@@ -94,7 +94,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     driver = webdriver.Firefox(options=opts)
     driver.implicitly_wait(10)
     log_in(MAIN_USERNAME, MAIN_PASSWORD, driver)
-
+    print("logged in")
     exists = {}
 
     # iter through the lines, strip them from newlines and run the check on them
