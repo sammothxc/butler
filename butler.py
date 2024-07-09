@@ -75,7 +75,8 @@ async def hello(ctx: discord.ApplicationContext):
     description="Sends the bot's latency."
 )
 async def ping(ctx: discord.ApplicationContext):
-    await ctx.respond(f"_ _\n:white_check_mark: Pong! Latency is {bot.latency}ms.")
+    latency_ms = round(bot.latency * 1000, 2)
+    await ctx.respond(f"_ _\n:white_check_mark: Pong! Latency is {latency_ms}ms.")
 
 
 # Butler Help
