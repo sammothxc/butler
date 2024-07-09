@@ -81,7 +81,7 @@ async def help(ctx: discord.ApplicationContext):
     description="Update Butler's code."
 )
 async def update_butler(ctx: discord.ApplicationContext):
-        await ctx.respond(f"\n:warning: Updating Butler software...")
+        await ctx.respond(f"\n:warning: Checking for updates...")
         updates = get_updates(repo_path)
         if not updates:
             await ctx.respond("\n:white_check_mark: Butler software is already up to date.")
