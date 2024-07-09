@@ -6,8 +6,12 @@ from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
 
-load_dotenv() # load TOKEN
+load_dotenv() # load .env file
 bot = discord.Bot()
+intents = discord.Intents.none()
+intents.reactions = True
+intents.members = True
+intents.guilds = True
 
 ## Logging
 @bot.event
