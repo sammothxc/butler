@@ -24,13 +24,13 @@ intents.guilds = True
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('flag', nargs='?', type=str, default=None)
-    # args = parser.parse_args()
-    # print(args.flag)
-    # if args.flag == "updated":
-    #     channel = bot.get_channel(1257840623596208309)
-    #     await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('updated', nargs='?', type=str, default=None)
+    args = parser.parse_args()
+    print(args.flag)
+    if args.flag == "updated":
+        channel = bot.get_channel(1257840623596208309)
+        await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 
 def get_updates(repo_path):
