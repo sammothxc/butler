@@ -1,6 +1,7 @@
 # bot.py
 import os
 import discord
+import argparse
 import subprocess
 from discord import option
 from dotenv import load_dotenv
@@ -25,8 +26,13 @@ intents.guilds = True
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
-    channel = bot.get_channel(1257840623596208309)
-    await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('updated', nargs='?', type=str, default=None)
+    args = parser.parse_args()
+    print(args.updated)
+    if args.updated == "updated":
+        channel = bot.get_channel(1257840623596208309)
+        await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 
 def get_updates(repo_path):
@@ -127,8 +133,18 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 
         await ctx.respond("_ _\n:x: Watchlist check error: " + str(e))
         return
-    result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
-    result = "\n".join([f"{key} {chk[key][1]} {chk[key][0]}" for key in chk.keys()])         # for debugging purposes, delete later
+    #result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
+    result_lines = []
+    for key in chk.keys():
+        name = key
+        status = "eliminated" if chk[key][0] else ("suppressed" if chk[key][2] else "eliminated")
+        user_id = chk[key][1]
+        line = f'{name} {status}, {"good job" if chk[key][0] else "ID: " + user_id}'
+        result_lines.append(line)
+
+    result = "\n".join(result_lines)
+    
+    #result = "\n".join([f"{key} {chk[key][0]} {chk[key][1]} {chk[key][2]}" for key in chk.keys()])         # for debugging purposes, delete later
     await ctx.respond(f"_ _\n:white_check_mark: Done checking Watchlist accounts.\nHere are my findings:\n{result}")
 
 
