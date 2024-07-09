@@ -63,7 +63,9 @@ def get_updates(repo_path):
     description="Say hi to Butler."
 )
 async def hello(ctx: discord.ApplicationContext):
-    await ctx.respond("_ _\n:wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
+    await ctx.respond
+    ("_ _\n:wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
+
 
 # Ping
 @bot.slash_command(
@@ -73,6 +75,7 @@ async def hello(ctx: discord.ApplicationContext):
 async def ping(ctx: discord.ApplicationContext):
     await ctx.respond(f"_ _\n:white_check_mark: Pong! Latency is {bot.latency}ms.")
 
+
 # Butler Help
 @bot.slash_command(
     name="butler_help",
@@ -80,6 +83,7 @@ async def ping(ctx: discord.ApplicationContext):
 )
 async def help(ctx: discord.ApplicationContext):
     await ctx.respond("_ _\n:white_check_mark: [TODO: Butler Help]\n\n")
+
 
 # Update Butler
 @bot.slash_command(
@@ -96,6 +100,7 @@ async def update_butler(ctx: discord.ApplicationContext):
         os.system("bash ./version.sh")
         os.system("sudo systemctl restart butler")
 
+
 # List Watchlist
 @bot.slash_command(
     name="list_watchlist",
@@ -108,6 +113,7 @@ async def list_watchlist(ctx: discord.ApplicationContext):
         return
     await ctx.respond(f"_ _\n:white_check_mark: Watchlist accounts:\n{watchlist}")
     await ctx.edit(suppress=True)
+
 
 # Check Watchlist
 @bot.slash_command(
@@ -126,6 +132,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
     result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
     await ctx.respond(f"_ _\n:white_check_mark: Done checking Watchlist accounts.\nHere are my findings:\n{result}")
 
+
 # Add to Watchlist
 @bot.slash_command(
     name="add_to_watchlist",
@@ -138,6 +145,7 @@ async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
     else:
         await ctx.respond(f"_ _\n:x: {account} is already in Watchlist.")
 
+
 # Remove from Watchlist
 @bot.slash_command(
     name="remove_from_watchlist",
@@ -149,6 +157,7 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
         await ctx.respond(f"_ _\n:white_check_mark: Removed {account} from Watchlist.")
     else:
         await ctx.respond(f"_ _\n:x: {account} is not in Watchlist.")
+
 
 # Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
