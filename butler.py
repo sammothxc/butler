@@ -25,7 +25,7 @@ intents.guilds = True
 async def on_ready():
     print(f"{bot.user} is ready and online!")
     parser = argparse.ArgumentParser()
-    parser.add_argument('flag', type=str)
+    parser.add_argument('flag', nargs='?', type=str, default=None)
     args = parser.parse_args()
     print(args.flag)
     if args.flag == "updated":
