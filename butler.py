@@ -25,7 +25,7 @@ intents.guilds = True
 async def on_ready():
     print(f"{bot.user} is ready and online!")
     parser = argparse.ArgumentParser()
-    parser.add_argument('flag', action='store_true')
+    parser.add_argument('-flag', action='store_true')
     args = parser.parse_args()
     if args.flag:
         #  channel_id = os.getenv('DISCORD_CHANNEL') # doesn't work for some reason
