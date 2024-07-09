@@ -12,6 +12,8 @@ from watchlist import (
     remove_from_watchlist_function)
 
 repo_path = '/home/butler/butler'
+version_script = '/home/butler/butler/version.sh'
+
 load_dotenv()   # load .env file
 bot = discord.Bot()
 intents = discord.Intents.none()
@@ -99,7 +101,7 @@ async def update_butler(ctx: discord.ApplicationContext):
         await ctx.respond("_ _\n:white_check_mark: Butler software is already up to date.")
         return
     await ctx.respond("_ _\n:white_check_mark: Updates available.\n:warning: Updating Butler software...")
-    os.system("bash ./version.sh")
+    os.system("bash /home/butler/butler/version.sh")
     os.system("sudo systemctl restart butler")
 
 
