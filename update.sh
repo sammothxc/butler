@@ -1,6 +1,6 @@
 #!/bin/bash
 git add . && git commit -m \"update\" && git push
-. .env
+. ./.env
 IFS='.' read -r -a version_parts <<< "$BOT_VERSION"
 ((version_parts[2]++))
 new_version="${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
