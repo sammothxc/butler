@@ -132,7 +132,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
     result_lines = []
     for key in chk.keys():
         name = key
-        status = "eliminated" if chk[key][0] else ("suppressed" if chk[key][2] else "eliminated")
+        status = "eliminated" if not chk[key][0] else ("suppressed" if chk[key][2] else "eliminated")
         user_id = chk[key][1]
         line = f'{name} {status}, {"good job" if chk[key][0] else "ID: " + user_id}'
         result_lines.append(line)
