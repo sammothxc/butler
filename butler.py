@@ -19,10 +19,10 @@ intents.guilds = True
 async def on_ready():
     print(f"{bot.user} is ready and online!")
     parser = argparse.ArgumentParser()
-    parser.add_argument('flag', action='store_true')
+    parser.add_argument('--flag', action='store_true')
     args = parser.parse_args()
     if args.flag:
-        #channel_id = os.getenv('DISCORD_CHANNEL')
+        #channel_id = os.getenv('DISCORD_CHANNEL') # doesn't work for some reason
         channel = bot.get_channel(1257799567961886902)
         print(channel)
         await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
@@ -58,7 +58,7 @@ async def help(ctx: discord.ApplicationContext):
     name="update_butler",
     description="Update Butler's code."
 )
-async def remove_from_watchlist(ctx: discord.ApplicationContext):
+async def update_butler(ctx: discord.ApplicationContext):
         await ctx.respond(f":warning: Updating Butler software...")
         os.system("git pull")
         await ctx.respond(f":white_check_mark: Butler software downloaded.\n:warning: Restarting...")
@@ -117,12 +117,6 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
         await ctx.respond(f":white_check_mark: Removed {account} from Watchlist.")
     else:
         await ctx.respond(f":x: {account} is not in Watchlist.")
-
-## On Update
-async def updated() -> None:
-    await bot.wait_until_ready()
-    channel = bot.fetch_channel(os.getenv('DISCORD_CHANNEL'))
-    await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
