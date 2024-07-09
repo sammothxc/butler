@@ -18,6 +18,7 @@ async def on_ready():
     args = parser.parse_args()
     if args.flag:
         channel = bot.get_channel(os.getenv('DISCORD_CHANNEL'))
+        print(channel)
         await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 ## Slash Commands ========================================
