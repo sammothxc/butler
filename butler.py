@@ -16,7 +16,9 @@ async def on_ready():
     parser = argparse.ArgumentParser()
     parser.add_argument('--flag', action='store_true')
     args = parser.parse_args()
-    print(args.flag)
+    if args.flag:
+        channel = bot.get_channel(os.getenv('DISCORD_CHANNEL'))
+        await channel.send(f":white_check_mark: Butler updated to {version}.")
 
 ## Slash Commands ========================================
 
@@ -52,8 +54,7 @@ async def help(ctx: discord.ApplicationContext):
 async def remove_from_watchlist(ctx: discord.ApplicationContext):
         await ctx.respond(f":warning: Updating Butler software...")
         os.system("git pull")
-        await ctx.respond(f":white_check_mark: Butler updated.")
-        await ctx.respond(f":warning: Restarting...")
+        await ctx.respond(f":white_check_mark: Butler software downloaded.\n:warning: Restarting...")
         os.system("sudo systemctl restart butler")
 
 ## List Watchlist
@@ -116,16 +117,4 @@ bot.run(os.getenv('DISCORD_TOKEN'))
 async def updated():
     channel = bot.get_channel(os.getenv('DISCORD_CHANNEL'))
     await channel.send(f":white_check_mark: Butler restarted.")
-
-def main(flag):
-    if flag:
-        updated()
-        print("Updated.")
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--flag', action='store_true')
-    args = parser.parse_args()
-    print(args.flag)
-    
-    main(args.flag)
+    return
