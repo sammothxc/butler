@@ -2,10 +2,12 @@
 import os
 import discord
 import argparse
+import subprocess
 from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
 
+repo_path = '/home/butler/butler'
 load_dotenv() # load .env file
 bot = discord.Bot()
 intents = discord.Intents.none()
@@ -26,6 +28,27 @@ async def on_ready():
         print(channel)
         await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
+def get_updates(repo_path):
+    try:
+        result = subprocess.run(
+            ["git", "pull"],
+            cwd=repo_path,
+            check=True,
+            text=True,
+            capture_output=True
+        )
+        
+        output = result.stdout.strip()
+        
+        if "Already up to date." in output:
+            return False
+        else:
+            return True
+        
+    except subprocess.CalledProcessError as e:
+        print(e)
+
+
 ## Slash Commands ========================================
 
 ## Hello
@@ -34,7 +57,7 @@ async def on_ready():
     description="Say hi to Butler."
 )
 async def hello(ctx: discord.ApplicationContext):
-    await ctx.respond(":wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
+    await ctx.respond("\n:wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
 
 ## Ping
 @bot.slash_command(
@@ -42,7 +65,7 @@ async def hello(ctx: discord.ApplicationContext):
     description="Sends the bot's latency."
 )
 async def ping(ctx: discord.ApplicationContext):
-    await ctx.respond(f":white_check_mark: Pong! Latency is {bot.latency}ms.")
+    await ctx.respond(f"\n:white_check_mark: Pong! Latency is {bot.latency}ms.")
 
 ## Butler Help
 @bot.slash_command(
@@ -50,7 +73,7 @@ async def ping(ctx: discord.ApplicationContext):
     description="List Butler's commands."
 )
 async def help(ctx: discord.ApplicationContext):
-    await ctx.respond(":white_check_mark: [TODO: Butler Help]\n\n")
+    await ctx.respond("\n:white_check_mark: [TODO: Butler Help]\n\n")
 
 ## Update Butler
 @bot.slash_command(
@@ -58,9 +81,12 @@ async def help(ctx: discord.ApplicationContext):
     description="Update Butler's code."
 )
 async def update_butler(ctx: discord.ApplicationContext):
-        await ctx.respond(f":warning: Updating Butler software...")
-        os.system("git pull")
-        await ctx.respond(f":white_check_mark: Butler software downloaded.\n:warning: Restarting...")
+        await ctx.respond(f"\n:warning: Updating Butler software...")
+        updates = get_updates(repo_path)
+        if not updates:
+            await ctx.respond("\n:white_check_mark: Butler software is already up to date.")
+            return
+        await ctx.respond(f"\n:white_check_mark: Updates available.\n:warning: Updating Butler software...")
         os.system("sudo systemctl restart butler")
 
 ## List Watchlist
@@ -71,9 +97,9 @@ async def update_butler(ctx: discord.ApplicationContext):
 async def list_watchlist(ctx: discord.ApplicationContext):
     watchlist = list_watchlist_function()
     if not watchlist:
-        await ctx.respond(":x: Watchlist error.")
+        await ctx.respond("\n:x: Watchlist error.")
         return
-    await ctx.respond(f":white_check_mark: Watchlist accounts:\n{watchlist}")
+    await ctx.respond(f"\n:white_check_mark: Watchlist accounts:\n{watchlist}")
     await ctx.edit(suppress=True)
 
 ## Check Watchlist
@@ -82,16 +108,16 @@ async def list_watchlist(ctx: discord.ApplicationContext):
     description="Run status check on Watchlist accounts."
 )
 async def check_watchlist(ctx: discord.ApplicationContext):
-    await ctx.respond(":warning: Checking Watchlist accounts...")
+    await ctx.respond("\n:warning: Checking Watchlist accounts...")
     try:
         chk = check_watchlist_function()
     except Exception as e:
         print(e)
         
-        await ctx.respond(":x: Watchlist check error: " + str(e))
+        await ctx.respond("\n:x: Watchlist check error: " + str(e))
         return
     result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
-    await ctx.respond(f":white_check_mark: Done checking Watchlist accounts.\nHere are my findings:\n{result}")
+    await ctx.respond(f"\n:white_check_mark: Done checking Watchlist accounts.\nHere are my findings:\n{result}")
 
 ## Add to Watchlist
 @bot.slash_command(
@@ -101,9 +127,9 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 @option("username")
 async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
     if add_to_watchlist_function(account):
-            await ctx.respond(f":white_check_mark: Added {account} to Watchlist.")
+            await ctx.respond(f"\n:white_check_mark: Added {account} to Watchlist.")
     else:
-        await ctx.respond(f":x: {account} is already in Watchlist.")
+        await ctx.respond(f"\n:x: {account} is already in Watchlist.")
 
 ## Remove from Watchlist
 @bot.slash_command(
@@ -113,9 +139,9 @@ async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
 @option("username")
 async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
     if remove_from_watchlist_function(account):
-        await ctx.respond(f":white_check_mark: Removed {account} from Watchlist.")
+        await ctx.respond(f"\n:white_check_mark: Removed {account} from Watchlist.")
     else:
-        await ctx.respond(f":x: {account} is not in Watchlist.")
+        await ctx.respond(f"\n:x: {account} is not in Watchlist.")
 
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
