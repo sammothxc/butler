@@ -2,7 +2,6 @@
 import os
 import discord
 import argparse
-import asyncio
 from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
