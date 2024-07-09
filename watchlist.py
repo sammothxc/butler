@@ -23,7 +23,7 @@ def log_in(USERNAME: str, PASSWORD: str, driver) -> None:
         '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button'))).click()
     time.sleep(5)
 
-def status_check(username: str, driver) -> List[bool, str, bool]:
+def status_check(username: str, driver) -> list[bool, str, bool]:
     '''
     checks if account exists, its id and if its private (returned in this order)
     '''
@@ -40,7 +40,7 @@ def status_check(username: str, driver) -> List[bool, str, bool]:
     res[0] = text[first_name_index:first_name_index + len(username)] == username # is the first match our username?
 
     # for debugging purposes, delete later
-    return [res[0], text[first_name_index:first_name_index + len(username)] + " - " + username, False]
+    #return [res[0], text[first_name_index:first_name_index + len(username)] + " - " + username, False]
 
     if res[0]: # found em first try
         first_id_index = text.index('"pk_id":"') + len('"pk_id":"')
@@ -64,7 +64,7 @@ def status_check(username: str, driver) -> List[bool, str, bool]:
     print(res)
     return res
 
-def check_watchlist_function() -> Dict[str: List[bool, str, bool]]:
+def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     '''
     checks usernames from watchlist_file
     returns a dict with usernames as keys and a list of exists:bool, id:str, private:bool as values
@@ -168,7 +168,7 @@ saved in utf-8, with trailing newline.
 
 # log_in and check_username stay the same
 
-def get_validation() -> Tuple[set[str], set[str], set[str]]:
+def get_validation() -> tuple[set[str], set[str], set[str]]:
     '''
     returns allowed values of category, status and tags
     '''
@@ -224,7 +224,7 @@ def remove_from_watchlist_2(username: str, file_path:str=watchlist_file) -> bool
         for line in lines:
             wanted.write(line)
 
-def list_watchlist_2(file_path: str=watchlist_file) ->  Union[str, bool]:
+def list_watchlist_2(file_path: str=watchlist_file):
     '''
     prints out formatted data from the file and links to the accounts,
     returns a single string if no errors occured, False otherwise,
