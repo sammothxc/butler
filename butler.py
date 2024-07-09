@@ -11,7 +11,6 @@ from watchlist import (
     remove_from_watchlist_function)
 
 repo_path = '/home/butler/butler'
-version_script = '/home/butler/butler/version.sh'
 
 load_dotenv()   # load .env file
 bot = discord.Bot()
