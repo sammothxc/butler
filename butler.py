@@ -25,6 +25,7 @@ intents.guilds = True
 async def on_ready():
     print(f"{bot.user} is ready and online!")
     channel = bot.get_channel(1257840623596208309)
+    print(channel)
     await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 
