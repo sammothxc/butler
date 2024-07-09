@@ -64,7 +64,9 @@ def get_updates(repo_path):
 )
 async def hello(ctx: discord.ApplicationContext):
     await ctx.respond
-    ("_ _\n:wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
+    ("_ _\n:wave: Hello! "
+     "I am Butler, a bot created by the one and only @sammothxc. "
+     "I am here to help you with your Hitman needs.")
 
 
 # Ping
@@ -91,14 +93,14 @@ async def help(ctx: discord.ApplicationContext):
     description="Update Butler's code."
 )
 async def update_butler(ctx: discord.ApplicationContext):
-        await ctx.respond(f"_ _\n:warning: Checking for updates...")
-        updates = get_updates(repo_path)
-        if not updates:
-            await ctx.respond("_ _\n:white_check_mark: Butler software is already up to date.")
-            return
-        await ctx.respond(f"_ _\n:white_check_mark: Updates available.\n:warning: Updating Butler software...")
-        os.system("bash ./version.sh")
-        os.system("sudo systemctl restart butler")
+    await ctx.respond("_ _\n:warning: Checking for updates...")
+    updates = get_updates(repo_path)
+    if not updates:
+        await ctx.respond("_ _\n:white_check_mark: Butler software is already up to date.")
+        return
+    await ctx.respond("_ _\n:white_check_mark: Updates available.\n:warning: Updating Butler software...")
+    os.system("bash ./version.sh")
+    os.system("sudo systemctl restart butler")
 
 
 # List Watchlist
@@ -126,7 +128,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
         chk = check_watchlist_function()
     except Exception as e:
         print(e)
-        
+
         await ctx.respond("_ _\n:x: Watchlist check error: " + str(e))
         return
     result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
@@ -140,8 +142,9 @@ async def check_watchlist(ctx: discord.ApplicationContext):
 )
 @option("username")
 async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
+
     if add_to_watchlist_function(account):
-            await ctx.respond(f"_ _\n:white_check_mark: Added {account} to Watchlist.")
+        await ctx.respond(f"_ _\n:white_check_mark: Added {account} to Watchlist.")
     else:
         await ctx.respond(f"_ _\n:x: {account} is already in Watchlist.")
 
@@ -153,6 +156,7 @@ async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
 )
 @option("username")
 async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
+
     if remove_from_watchlist_function(account):
         await ctx.respond(f"_ _\n:white_check_mark: Removed {account} from Watchlist.")
     else:
@@ -161,5 +165,3 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
 
 # Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
-
-
