@@ -1,6 +1,7 @@
 # bot.py
 import os
 import discord
+import argparse
 from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
@@ -107,3 +108,14 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
     
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
+
+async def main(ctx: discord.ApplicationContext, flag):
+    if flag:
+        await ctx.respond(f":white_check_mark: Butler restarted.")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--flag', action='store_true')
+    args = parser.parse_args()
+    
+    main(args.flag)
