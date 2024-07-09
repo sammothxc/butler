@@ -116,6 +116,7 @@ async def updated():
 def main(flag):
     if flag:
         updated()
+        print("Updated.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
