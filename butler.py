@@ -13,6 +13,10 @@ bot = discord.Bot()
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--flag', action='store_true')
+    args = parser.parse_args()
+    print(args.flag)
 
 ## Slash Commands ========================================
 
