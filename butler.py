@@ -25,12 +25,13 @@ intents.guilds = True
 async def on_ready():
     print(f"{bot.user} is ready and online!")
     parser = argparse.ArgumentParser()
-    parser.add_argument('-flag', action='store_true')
+    parser.add_argument('--flag', action='store_true')
     args = parser.parse_args()
     if args.flag:
         #  channel_id = os.getenv('DISCORD_CHANNEL') # doesn't work for some reason
         channel = bot.get_channel(1257840623596208309)
         print(channel)
+        print(args.flag)
         await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 
