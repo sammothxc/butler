@@ -39,6 +39,18 @@ async def ping(ctx: discord.ApplicationContext):
 async def help(ctx: discord.ApplicationContext):
     await ctx.respond(":white_check_mark: [TODO: Butler Help]\n\n")
 
+## Update Butler
+@bot.slash_command(
+    name="update_butler",
+    description="Update Butler's code."
+)
+async def remove_from_watchlist(ctx: discord.ApplicationContext):
+        await ctx.respond(f":warning: Updating Butler software...")
+        os.system("git pull")
+        await ctx.respond(f":white_check_mark: Butler updated.")
+        await ctx.respond(f":warning: Restarting...")
+        os.system("sudo systemctl restart butler")
+
 ## List Watchlist
 @bot.slash_command(
     name="list_watchlist",
