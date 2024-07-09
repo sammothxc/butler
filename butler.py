@@ -19,6 +19,7 @@ intents.reactions = True
 intents.members = True
 intents.guilds = True
 
+
 # Logging
 @bot.event
 async def on_ready():
@@ -27,10 +28,11 @@ async def on_ready():
     parser.add_argument('--flag', action='store_true')
     args = parser.parse_args()
     if args.flag:
-        #channel_id = os.getenv('DISCORD_CHANNEL') # doesn't work for some reason
+        #  channel_id = os.getenv('DISCORD_CHANNEL') # doesn't work for some reason
         channel = bot.get_channel(1257840623596208309)
         print(channel)
         await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+
 
 def get_updates(repo_path):
     try:
@@ -41,14 +43,14 @@ def get_updates(repo_path):
             text=True,
             capture_output=True
         )
-        
+
         output = result.stdout.strip()
-        
+
         if "Already up to date." in output:
             return False
         else:
             return True
-        
+
     except subprocess.CalledProcessError as e:
         print(e)
 
