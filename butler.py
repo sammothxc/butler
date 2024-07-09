@@ -1,10 +1,10 @@
 # bot.py
 import os
 import discord
-import argparse
 import subprocess
 from discord import option
 from dotenv import load_dotenv
+from creds import edit_creds_function
 from watchlist import (
     list_watchlist_function,
     check_watchlist_function,
@@ -167,6 +167,20 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account: str):
         await ctx.respond(f"_ _\n:white_check_mark: Removed {account} from Watchlist.")
     else:
         await ctx.respond(f"_ _\n:x: {account} is not in Watchlist.")
+
+
+# Edit IG credentials
+@bot.slash_command(
+    name="edit_creds",
+    description="Edit IG credentials."
+)
+@option("username")
+@option("password")
+async def edit_creds(ctx: discord.ApplicationContext, username: str, password: str):
+    if edit_creds_function(username, password):
+        await ctx.respond(f"_ _\n:white_check_mark: Edited IG creds.")
+    else:
+        await ctx.respond(f"_ _\n:x: Editing creds error.")
 
 
 # Run the bot
