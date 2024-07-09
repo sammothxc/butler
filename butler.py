@@ -2,46 +2,18 @@
 import os
 import discord
 import argparse
+import asyncio
 from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
 
-load_dotenv() # load .env file
 bot = discord.Bot()
-intents = discord.Intents.none()
-intents.reactions = True
-intents.members = True
-intents.guilds = True
 
 ## Logging
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--flag', action='store_true')
-    args = parser.parse_args()
-    if args.flag:
-        channel_id = os.getenv('DISCORD_CHANNEL')
-        channel = bot.fetch_channel(os.getenv('DISCORD_CHANNEL'))
-        print(channel)
-        await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
-        channel = bot.get_channel(channel_id)
-        
-        if channel is None:
-            try:
-                channel = await bot.fetch_channel(channel_id)
-                print(f"Fetched channel: {channel.name}")
-            except discord.NotFound:
-                print(f"Channel with ID {channel_id} not found.")
-                return
-            except discord.Forbidden:
-                print(f"Forbidden: Cannot access channel with ID {channel_id}.")
-                return
-            except discord.HTTPException as e:
-                print(f"HTTPException: {e}")
-                return
-        if channel:
-            await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+
 ## Slash Commands ========================================
 
 ## Hello
@@ -132,11 +104,23 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
         await ctx.respond(f":white_check_mark: Removed {account} from Watchlist.")
     else:
         await ctx.respond(f":x: {account} is not in Watchlist.")
-    
-## Run the bot
-bot.run(os.getenv('DISCORD_TOKEN'))
 
-async def updated():
-    channel = bot.get_channel(os.getenv('DISCORD_CHANNEL'))
-    await channel.send(f":white_check_mark: Butler restarted.")
-    return
+## On Update
+async def updated() -> None:
+    await bot.wait_until_ready()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--flag', action='store_true')
+    args = parser.parse_args()
+    if args.flag:
+        channel = bot.fetch_channel(os.getenv('DISCORD_CHANNEL'))
+        await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+
+## Run the bot
+load_dotenv() # load .env file
+intents = discord.Intents.none()
+intents.reactions = True
+intents.members = True
+intents.guilds = True
+loop = bot.loop
+loop.create_task(updated())
+bot.run(os.getenv('DISCORD_TOKEN'))
