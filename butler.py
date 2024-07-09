@@ -87,6 +87,7 @@ async def update_butler(ctx: discord.ApplicationContext):
             await ctx.respond("\n:white_check_mark: Butler software is already up to date.")
             return
         await ctx.respond(f"\n:white_check_mark: Updates available.\n:warning: Updating Butler software...")
+        os.system("bash ./version.sh")
         os.system("sudo systemctl restart butler")
 
 ## List Watchlist
