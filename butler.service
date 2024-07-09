@@ -1,0 +1,13 @@
+[Unit]
+Description=Butler Discord bot
+After=multi-user.target
+[Service]
+User=butler
+Type=simple
+Restart=always
+ExecStart=/home/butler/butler/venv/bin/python3 /home/butler/butler/butler.py
+ExecReload=/home/butler/butler/venv/bin/python3 /home/butler/butler/butler.py
+StandardOutput=journal
+StandardError=journal
+[Install]
+WantedBy=multi-user.target
