@@ -31,7 +31,7 @@ async def on_ready():
         #  channel_id = os.getenv('DISCORD_CHANNEL') # doesn't work for some reason
         channel = bot.get_channel(1257840623596208309)
         print(channel)
-        await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+        await channel.send(f"_ _\n:white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 
 def get_updates(repo_path):
