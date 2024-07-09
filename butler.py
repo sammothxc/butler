@@ -21,10 +21,27 @@ async def on_ready():
     parser.add_argument('--flag', action='store_true')
     args = parser.parse_args()
     if args.flag:
+        channel_id = os.getenv('DISCORD_CHANNEL')
         channel = bot.fetch_channel(os.getenv('DISCORD_CHANNEL'))
         print(channel)
         await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
-
+        channel = bot.get_channel(channel_id)
+        
+        if channel is None:
+            try:
+                channel = await bot.fetch_channel(channel_id)
+                print(f"Fetched channel: {channel.name}")
+            except discord.NotFound:
+                print(f"Channel with ID {channel_id} not found.")
+                return
+            except discord.Forbidden:
+                print(f"Forbidden: Cannot access channel with ID {channel_id}.")
+                return
+            except discord.HTTPException as e:
+                print(f"HTTPException: {e}")
+                return
+        if channel:
+            await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 ## Slash Commands ========================================
 
 ## Hello
