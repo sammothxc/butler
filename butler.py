@@ -5,7 +5,7 @@ import argparse
 import subprocess
 from discord import option
 from dotenv import load_dotenv
-from watchlist import(
+from watchlist import (
     list_watchlist_function,
     check_watchlist_function,
     add_to_watchlist_function,
