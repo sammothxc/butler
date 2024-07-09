@@ -297,4 +297,3 @@ def check_watchlist_2(file_path:str=watchlist_file) -> None:
         for line in res_lines:
             wanted.write(line)
         print("watchlist updated")
-
