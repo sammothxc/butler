@@ -5,17 +5,21 @@ import argparse
 import subprocess
 from discord import option
 from dotenv import load_dotenv
-from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
+from watchlist import(
+    list_watchlist_function,
+    check_watchlist_function,
+    add_to_watchlist_function,
+    remove_from_watchlist_function)
 
 repo_path = '/home/butler/butler'
-load_dotenv() # load .env file
+load_dotenv()   # load .env file
 bot = discord.Bot()
 intents = discord.Intents.none()
 intents.reactions = True
 intents.members = True
 intents.guilds = True
 
-## Logging
+# Logging
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
@@ -49,9 +53,9 @@ def get_updates(repo_path):
         print(e)
 
 
-## Slash Commands ========================================
+# Slash Commands ========================================
 
-## Hello
+# Hello
 @bot.slash_command(
     name="hello",
     description="Say hi to Butler."
@@ -59,7 +63,7 @@ def get_updates(repo_path):
 async def hello(ctx: discord.ApplicationContext):
     await ctx.respond("_ _\n:wave: Hello! I am Butler, a bot created by the one and only @sammothxc. I am here to help you with your Hitman needs.")
 
-## Ping
+# Ping
 @bot.slash_command(
     name="ping",
     description="Sends the bot's latency."
@@ -67,7 +71,7 @@ async def hello(ctx: discord.ApplicationContext):
 async def ping(ctx: discord.ApplicationContext):
     await ctx.respond(f"_ _\n:white_check_mark: Pong! Latency is {bot.latency}ms.")
 
-## Butler Help
+# Butler Help
 @bot.slash_command(
     name="butler_help",
     description="List Butler's commands."
@@ -75,7 +79,7 @@ async def ping(ctx: discord.ApplicationContext):
 async def help(ctx: discord.ApplicationContext):
     await ctx.respond("_ _\n:white_check_mark: [TODO: Butler Help]\n\n")
 
-## Update Butler
+# Update Butler
 @bot.slash_command(
     name="update_butler",
     description="Update Butler's code."
@@ -90,7 +94,7 @@ async def update_butler(ctx: discord.ApplicationContext):
         os.system("bash ./version.sh")
         os.system("sudo systemctl restart butler")
 
-## List Watchlist
+# List Watchlist
 @bot.slash_command(
     name="list_watchlist",
     description="List accounts on Watchlist."
@@ -103,7 +107,7 @@ async def list_watchlist(ctx: discord.ApplicationContext):
     await ctx.respond(f"_ _\n:white_check_mark: Watchlist accounts:\n{watchlist}")
     await ctx.edit(suppress=True)
 
-## Check Watchlist
+# Check Watchlist
 @bot.slash_command(
     name="check_watchlist",
     description="Run status check on Watchlist accounts."
@@ -120,7 +124,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
     result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
     await ctx.respond(f"_ _\n:white_check_mark: Done checking Watchlist accounts.\nHere are my findings:\n{result}")
 
-## Add to Watchlist
+# Add to Watchlist
 @bot.slash_command(
     name="add_to_watchlist",
     description="Add an account to Watchlist."
@@ -132,7 +136,7 @@ async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
     else:
         await ctx.respond(f"_ _\n:x: {account} is already in Watchlist.")
 
-## Remove from Watchlist
+# Remove from Watchlist
 @bot.slash_command(
     name="remove_from_watchlist",
     description="Remove an account from Watchlist."
@@ -144,7 +148,7 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
     else:
         await ctx.respond(f"_ _\n:x: {account} is not in Watchlist.")
 
-## Run the bot
+# Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
 
 
