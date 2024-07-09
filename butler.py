@@ -137,8 +137,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
     description="Add an account to Watchlist."
 )
 @option("username")
-async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
-
+async def add_to_watchlist(ctx: discord.ApplicationContext, account: str):
     if add_to_watchlist_function(account):
         await ctx.respond(f"_ _\n:white_check_mark: Added {account} to Watchlist.")
     else:
@@ -151,8 +150,7 @@ async def add_to_watchlist(ctx: discord.ApplicationContext, account:str):
     description="Remove an account from Watchlist."
 )
 @option("username")
-async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
-
+async def remove_from_watchlist(ctx: discord.ApplicationContext, account: str):
     if remove_from_watchlist_function(account):
         await ctx.respond(f"_ _\n:white_check_mark: Removed {account} from Watchlist.")
     else:
