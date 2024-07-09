@@ -111,7 +111,8 @@ async def list_watchlist(ctx: discord.ApplicationContext):
         await ctx.respond("_ _\n:x: Watchlist error.")
         return
     await ctx.respond(f"_ _\n:white_check_mark: Watchlist accounts:\n{watchlist}")
-    await ctx.edit(suppress=True)
+    message = await ctx.fetch_message(ctx.message.id)
+    await message.edit(suppress=True)
 
 
 # Check Watchlist
