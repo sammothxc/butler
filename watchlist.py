@@ -15,6 +15,7 @@ watchlist_file = "/home/butler/butler/watchlist.txt"
 opts = FirefoxOptions()
 opts.add_argument("--headless")
 
+
 def log_in(USERNAME: str, PASSWORD: str, driver) -> None:
     driver.get("https://www.instagram.com/accounts/login")
     driver.find_element(By.NAME, 'username').send_keys(USERNAME)
@@ -22,6 +23,7 @@ def log_in(USERNAME: str, PASSWORD: str, driver) -> None:
     WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,
         '/html/body/div[2]/div/div/div[2]/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[3]/button'))).click()
     time.sleep(5)
+
 
 def status_check(username: str, driver) -> list[bool, str, bool]:
     '''
@@ -61,6 +63,7 @@ def status_check(username: str, driver) -> list[bool, str, bool]:
     print(res)
     return res
 
+
 def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     '''
     checks usernames from watchlist_file
@@ -86,6 +89,7 @@ def check_watchlist_function() -> dict[str: list[bool, str, bool]]:
     print(exists)
     return exists 
 
+
 def list_watchlist_function():
     '''
     lists the usernames in the watchlist_file and the links to their accounts
@@ -100,6 +104,7 @@ def list_watchlist_function():
     except Exception as e:
         print(e)
         return False
+
 
 def add_to_watchlist_function(username: str) -> bool:
     '''
@@ -120,6 +125,7 @@ def add_to_watchlist_function(username: str) -> bool:
     except:
         return False
     return True
+
 
 def remove_from_watchlist_function(username: str) -> bool:
     '''
@@ -174,6 +180,7 @@ def get_validation() -> tuple[set[str], set[str], set[str]]:
     tags = {"full", "part", ""}
     return (category, status, tags)
 
+
 def add_to_watchlist_2(username: str, user_id:str="", category:str="", tags:str="", status:str="active", file_path:str=watchlist_file) -> bool:
     '''
     adds a new line to the list, if the name isn't already there,
@@ -204,7 +211,8 @@ def add_to_watchlist_2(username: str, user_id:str="", category:str="", tags:str=
     with open(watchlist_file, "a", encoding="utf-8") as wanted:
         wanted.write(delimiter.join((user_id, username, category, tags, status)) + "\n")
         return True
-            
+
+  
 def remove_from_watchlist_2(username: str, file_path:str=watchlist_file) -> bool:
     '''
     removes username from the list if it's there
@@ -220,6 +228,7 @@ def remove_from_watchlist_2(username: str, file_path:str=watchlist_file) -> bool
     with open(file_path, "w", encoding="utf-8") as wanted:
         for line in lines:
             wanted.write(line)
+
 
 def list_watchlist_2(file_path: str=watchlist_file):
     '''
@@ -238,7 +247,8 @@ def list_watchlist_2(file_path: str=watchlist_file):
     except Exception as e:
         print(e)
         return False
-        
+
+
 def check_watchlist_2(file_path:str=watchlist_file) -> None:
     '''
     checks usernames from watchlist_file and updates them
@@ -288,8 +298,8 @@ def check_watchlist_2(file_path:str=watchlist_file) -> None:
             wanted.write(line)
         print("watchlist updated")
 
-# no longer used code
 
+# no longer used code
 def get_json(username, driver): # no longer used
     url = "https://www.instagram.com/web/search/topsearch/?query=" + username
     driver.get(url)
@@ -303,12 +313,15 @@ def get_json(username, driver): # no longer used
     except:
         return {}
 
+
 def encode(string: str) -> str: # no longer used
     # I fucked this one up a bit in the original, isalpha instead of isnumeric
     return "".join(char for char in string if char.isalpha())
 
+
 def get_most_likely(usernames, alts) -> list[str]: # no longer used
     return [alt for alt in list(alts) if encode(alt) in {encode(name) for name in usernames}]
+
 
 def check_username(driver, username, potential_alts): # no longer used
     users_json = get_json(username, driver=driver)
