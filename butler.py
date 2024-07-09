@@ -109,9 +109,13 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
 ## Run the bot
 bot.run(os.getenv('DISCORD_TOKEN'))
 
-async def main(ctx: discord.ApplicationContext, flag):
+async def updated():
+    channel = bot.get_channel(os.getenv('DISCORD_CHANNEL'))
+    await channel.send(f":white_check_mark: Butler restarted.")
+
+def main(flag):
     if flag:
-        await ctx.respond(f":white_check_mark: Butler restarted.")
+        updated()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
