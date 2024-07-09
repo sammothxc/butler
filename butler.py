@@ -7,12 +7,25 @@ from discord import option
 from dotenv import load_dotenv
 from watchlist import list_watchlist_function, check_watchlist_function, add_to_watchlist_function, remove_from_watchlist_function
 
+load_dotenv() # load .env file
 bot = discord.Bot()
+intents = discord.Intents.none()
+intents.reactions = True
+intents.members = True
+intents.guilds = True
 
 ## Logging
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--flag', action='store_true')
+    args = parser.parse_args()
+    if args.flag:
+        #channel_id = os.getenv('DISCORD_CHANNEL')
+        channel = bot.get_channel(1257799567961886902)
+        print(channel)
+        await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 ## Slash Commands ========================================
 
@@ -108,19 +121,10 @@ async def remove_from_watchlist(ctx: discord.ApplicationContext, account:str):
 ## On Update
 async def updated() -> None:
     await bot.wait_until_ready()
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--flag', action='store_true')
-    args = parser.parse_args()
-    if args.flag:
-        channel = bot.fetch_channel(os.getenv('DISCORD_CHANNEL'))
-        await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
+    channel = bot.fetch_channel(os.getenv('DISCORD_CHANNEL'))
+    await channel.send(f":white_check_mark: Butler updated to {os.getenv('BOT_VERSION')}.")
 
 ## Run the bot
-load_dotenv() # load .env file
-intents = discord.Intents.none()
-intents.reactions = True
-intents.members = True
-intents.guilds = True
-loop = bot.loop
-loop.create_task(updated())
 bot.run(os.getenv('DISCORD_TOKEN'))
+
+
