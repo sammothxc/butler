@@ -132,6 +132,7 @@ async def check_watchlist(ctx: discord.ApplicationContext):
         await ctx.respond("_ _\n:x: Watchlist check error: " + str(e))
         return
     result = "\n".join([f"{key} {('still up, ID: 'if not chk[key][2] else 'suppressed, ID: ') + chk[key][1] if chk[key][0] else 'was eliminated'}" for key in chk.keys()])
+    result = "\n".join([f"{key} {chk[key][1]} {chk[key][0]}"])         # for debugging purposes, delete later
     await ctx.respond(f"_ _\n:white_check_mark: Done checking Watchlist accounts.\nHere are my findings:\n{result}")
 
 
