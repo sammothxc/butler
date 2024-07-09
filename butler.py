@@ -1,7 +1,6 @@
 # bot.py
 import os
 import discord
-import argparse
 import subprocess
 from discord import option
 from dotenv import load_dotenv
