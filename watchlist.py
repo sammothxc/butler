@@ -39,6 +39,9 @@ def status_check(username: str, driver) -> List[bool, str, bool]:
     first_name_index = text.index('"username":"') + len('"username":"')
     res[0] = text[first_name_index:first_name_index + len(username)] == username # is the first match our username?
 
+    # for debugging purposes, delete later
+    return [res[0], text[first_name_index:first_name_index + len(username)] + " - " + username, False]
+
     if res[0]: # found em first try
         first_id_index = text.index('"pk_id":"') + len('"pk_id":"')
         first_private_index = text.index('"is_private":') + len('"is_private":')
