@@ -40,7 +40,7 @@ def status_check(username: str, driver) -> list[bool, str, bool]:
     res[0] = text[first_name_index:first_name_index + len(username)] == username # is the first match our username?
 
     # for debugging purposes, delete later
-    #return [res[0], text[first_name_index:first_name_index + len(username)] + " - " + username, False]
+    return [res[0], text[first_name_index:first_name_index + len(username)] + " - " + username, False]
 
     if res[0]: # found em first try
         first_id_index = text.index('"pk_id":"') + len('"pk_id":"')
